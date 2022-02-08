@@ -1,5 +1,6 @@
 package es.sanitas.calculadorasan.controller;
 
+import io.corp.calculator.TracerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,14 +47,22 @@ public class OperacionesController {
 	 * 
 	 */
 	@PostMapping("/operar")
-	public ResponseEntity<String> sumarNumeros(@RequestBody OperacionCalculadoraWeb operacion) {
+	public ResponseEntity<String> operarNumerosEndpoint(@RequestBody OperacionCalculadoraWeb operacion) {
 		Double resultado = 0.0;
+		TracerImpl tracer = new TracerImpl();
 		try{
+			tracer.trace("[operarNumerosEndpoint] Vamos a realizar una operacion de " + operacion.getTipo());
 			// Calculamos ambos numeros
 			resultado = operacionesCalculadoraService.operarNumeros(operacion);
 
+			// Añadimos traza
+			tracer.trace("[operarNumerosEndpoint] Se ha realizado la operacion correctamente.");
+
+			// Devolvemos el resultado
 			return new ResponseEntity<>("El resultado de tu " + operacion.getTipo() + " es: " + resultado, HttpStatus.OK);
 		} catch(Exception e){
+			// Trazeamos el error
+			tracer.trace("[operarNumerosEndpoint] Ha habido un error intentando operar " + e.getMessage());
 			return new ResponseEntity<>("Ha ocurrido un error intentando operar: " + e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 

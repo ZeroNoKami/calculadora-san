@@ -5,6 +5,7 @@ import es.sanitas.calculadorasan.constants.OperacionesCalculadoraConstants;
 import es.sanitas.calculadorasan.model.OperacionCalculadoraWeb;
 import es.sanitas.calculadorasan.services.OperacionesCalculadoraService;
 import org.springframework.stereotype.Service;
+import io.corp.calculator.TracerImpl;
 
 @Service
 public class OperacionesCalculadoraServiceImpl implements OperacionesCalculadoraService {
@@ -19,10 +20,12 @@ public class OperacionesCalculadoraServiceImpl implements OperacionesCalculadora
 	 * 
 	 */
 	public Double operarNumeros(OperacionCalculadoraWeb operacion) {
-		//Aqui va un log de trazabilidad
 		// Inicializamos la variable que devolveremos
 		Double resultado = 0.0;
+		TracerImpl tracer = new TracerImpl();
 
+		tracer.trace("[operarNumeros] Vamos a realizar una operacion de " + operacion.getTipo() +
+				"con los numeros " + operacion.getNumeros() + ".");
 		try{
 			// Dado que en el futuro se añadiran nuevas operaciones he decidido hacerlo
 			// en un switch donde se calculará segun la variable operacion
@@ -30,35 +33,32 @@ public class OperacionesCalculadoraServiceImpl implements OperacionesCalculadora
 				if(operacion.getNumeros().size()>1){
 					switch (operacion.getTipo()) {
 						case OperacionesCalculadoraConstants.SUMAR:
-							//Aqui va un log de trazabilidad
 							resultado = operacion.getNumeros().stream().reduce(0.0, Double::sum);
 							break;
 						case OperacionesCalculadoraConstants.RESTAR:
-							//Aqui va un log de trazabilidad
 							resultado = operacion.getNumeros().stream().reduce(0.0, (a, b)-> a - b);
 							break;
 						case OperacionesCalculadoraConstants.MULTIPLICAR:
-							//Aqui va un log de trazabilidad
 							resultado = operacion.getNumeros().stream().reduce(1.0, (a, b) -> a * b);
 							break;
 						case OperacionesCalculadoraConstants.DIVIDIR:
-							//Aqui va un log de trazabilidad
 							resultado = operacion.getNumeros().stream().reduce(1.0, (a,b) -> a/b);
 							break;
 						default:
-							// Aqui va  un log para control de errores
+							tracer.trace("[operarNumeros] Ha insertado un tipo de operacion no gestionado por operador.");
 							throw new IllegalArgumentException("No existe el tipo de operacion elegido");
 					}
+
 				} else {
-					// Aqui va  un log para control de errores
+					tracer.trace("[operarNumeros] Ha insertado pocos numeros en la entrada ");
 					throw new IllegalArgumentException("Debe añadir mas de un numero para poder operar.");
 				}
 
 			}
-			// Aqui va un log con la operacion OK
+			tracer.trace("[operarNumeros] El resultado de la operacion es: " + resultado);
 			return resultado;
 		}catch(Exception e){
-			// Aqui va un log de control de error
+			tracer.trace("[operarNumeros] Habido un error en la ejecucion del operador: " + e.getMessage());
 			throw e;
 		}
 
