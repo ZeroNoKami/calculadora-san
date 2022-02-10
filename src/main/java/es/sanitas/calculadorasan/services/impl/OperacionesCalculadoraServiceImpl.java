@@ -21,7 +21,7 @@ public class OperacionesCalculadoraServiceImpl implements OperacionesCalculadora
 	 */
 	public Double operarNumeros(Double numero1, Double numero2, String operacion) {
 		// Inicializamos la variable que devolveremos
-		Double resultado = 0.0;
+		double resultado = 0.0;
 		TracerImpl tracer = new TracerImpl();
 
 		tracer.trace("[operarNumeros] Vamos a realizar una operacion de " + operacion +
