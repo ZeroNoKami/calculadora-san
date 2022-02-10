@@ -2,7 +2,6 @@ package es.sanitas.calculadorasan.services.impl;
 
 import java.util.Objects;
 import es.sanitas.calculadorasan.constants.OperacionesCalculadoraConstants;
-import es.sanitas.calculadorasan.model.OperacionCalculadoraWeb;
 import es.sanitas.calculadorasan.services.OperacionesCalculadoraService;
 import org.springframework.stereotype.Service;
 import io.corp.calculator.TracerImpl;
@@ -13,36 +12,36 @@ public class OperacionesCalculadoraServiceImpl implements OperacionesCalculadora
 	/**
 	 * Método que opera sobre los 2 numeros dados
 	 *
-	 * @param operacion
-	 *            con la operacion a realizar
-	 * 
-	 * @return Integer resultado de la operacion
-	 * 
+	 * @param numero1 con el primer numero
+	 * @param numero2 con el segundo numero
+	 * @param operacion con la operacion a realizar
+	 *
+	 * @return double con el resultado
 	 */
-	public Double operarNumeros(OperacionCalculadoraWeb operacion) {
+	public Double operarNumeros(Double numero1, Double numero2, String operacion) {
 		// Inicializamos la variable que devolveremos
-		Double resultado = 0.0;
+		double resultado = 0.0;
 		TracerImpl tracer = new TracerImpl();
 
-		tracer.trace("[operarNumeros] Vamos a realizar una operacion de " + operacion.getTipo() +
-				"con los numeros " + operacion.getNumeros() + ".");
+		tracer.trace("[operarNumeros] Vamos a realizar una operacion de " + operacion +
+				"con los numeros " + numero1 + ", " + numero2 + ".");
 		try{
 			// Dado que en el futuro se añadiran nuevas operaciones he decidido hacerlo
 			// en un switch donde se calculará segun la variable operacion
-			if (Objects.nonNull(operacion) && Objects.nonNull(operacion.getTipo())) {
-				if(operacion.getNumeros().size()>1){
-					switch (operacion.getTipo()) {
+			if (Objects.nonNull(operacion)) {
+				if(Objects.nonNull(numero1) && Objects.nonNull(numero2)){
+					switch (operacion) {
 						case OperacionesCalculadoraConstants.SUMAR:
-							resultado = operacion.getNumeros().stream().reduce(0.0, Double::sum);
+							resultado = numero1 + numero2;
 							break;
 						case OperacionesCalculadoraConstants.RESTAR:
-							resultado = operacion.getNumeros().stream().reduce(0.0, (a, b)-> a - b);
+							resultado = numero1 - numero2;
 							break;
 						case OperacionesCalculadoraConstants.MULTIPLICAR:
-							resultado = operacion.getNumeros().stream().reduce(1.0, (a, b) -> a * b);
+							resultado = numero1 * numero2;
 							break;
 						case OperacionesCalculadoraConstants.DIVIDIR:
-							resultado = operacion.getNumeros().stream().reduce(1.0, (a,b) -> a/b);
+							resultado = numero1 / numero2;
 							break;
 						default:
 							tracer.trace("[operarNumeros] Ha insertado un tipo de operacion no gestionado por operador.");

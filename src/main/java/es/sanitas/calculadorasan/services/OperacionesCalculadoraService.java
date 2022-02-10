@@ -1,7 +1,5 @@
 package es.sanitas.calculadorasan.services;
 
-import es.sanitas.calculadorasan.model.OperacionCalculadoraWeb;
-
 /**
  * Interfaz de las operaciones de la calculadora
  * 
@@ -19,6 +17,6 @@ public interface OperacionesCalculadoraService {
 	 * @return Integer resultado de la operacion
 	 * 
 	 */
-	 Double operarNumeros(OperacionCalculadoraWeb operacion);
+	 Double operarNumeros(Double numero1, Double numero2, String operacion);
 
 }
