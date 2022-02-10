@@ -2,7 +2,6 @@ package es.sanitas.calculadorasan.services.impl;
 
 import java.util.Objects;
 import es.sanitas.calculadorasan.constants.OperacionesCalculadoraConstants;
-import es.sanitas.calculadorasan.model.OperacionCalculadoraWeb;
 import es.sanitas.calculadorasan.services.OperacionesCalculadoraService;
 import org.springframework.stereotype.Service;
 import io.corp.calculator.TracerImpl;
