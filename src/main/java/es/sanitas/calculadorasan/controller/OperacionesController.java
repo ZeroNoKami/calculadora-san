@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.sanitas.calculadorasan.model.OperacionCalculadoraWeb;
@@ -46,20 +48,23 @@ public class OperacionesController {
 	 * @return Código de respuesta HTTP resultado
 	 * 
 	 */
-	@PostMapping("/operar")
-	public ResponseEntity<String> operarNumerosEndpoint(@RequestBody OperacionCalculadoraWeb operacion) {
+	@GetMapping("/operar")
+	public ResponseEntity<String> operarNumerosEndpoint(
+			@RequestParam Double numero1,
+			@RequestParam Double numero2,
+			@RequestParam String operacion) {
 		Double resultado = 0.0;
 		TracerImpl tracer = new TracerImpl();
 		try{
-			tracer.trace("[operarNumerosEndpoint] Vamos a realizar una operacion de " + operacion.getTipo());
+			tracer.trace("[operarNumerosEndpoint] Vamos a realizar una operacion de " + operacion);
 			// Calculamos ambos numeros
-			resultado = operacionesCalculadoraService.operarNumeros(operacion);
+			resultado = operacionesCalculadoraService.operarNumeros(numero1, numero2, operacion);
 
 			// Añadimos traza
 			tracer.trace("[operarNumerosEndpoint] Se ha realizado la operacion correctamente.");
 
 			// Devolvemos el resultado
-			return new ResponseEntity<>("El resultado de tu " + operacion.getTipo() + " es: " + resultado, HttpStatus.OK);
+			return new ResponseEntity<>("El resultado de tu " + operacion + " es: " + resultado, HttpStatus.OK);
 		} catch(Exception e){
 			// Trazeamos el error
 			tracer.trace("[operarNumerosEndpoint] Ha habido un error intentando operar " + e.getMessage());

@@ -19,6 +19,6 @@ public interface OperacionesCalculadoraService {
 	 * @return Integer resultado de la operacion
 	 * 
 	 */
-	 Double operarNumeros(OperacionCalculadoraWeb operacion);
+	 Double operarNumeros(Double numero1, Double numero2, String operacion);
 
 }
