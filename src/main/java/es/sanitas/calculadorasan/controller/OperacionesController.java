@@ -1,6 +1,7 @@
 package es.sanitas.calculadorasan.controller;
 
 import io.corp.calculator.TracerImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,30 +21,21 @@ import es.sanitas.calculadorasan.services.OperacionesCalculadoraService;
  */
 @RestController
 @RequestMapping("/sanitas-calculadora/api/v1")
+@RequiredArgsConstructor
 @Validated
 public class OperacionesController {
 
+	@Autowired
 	private final OperacionesCalculadoraService operacionesCalculadoraService;
 
 	/**
-	 * Constructor de la clase DecisionOperacionesPendientesController
-	 * 
-	 * @param operacionesCalculadoraService
-	 *            para realizar la inyeccion de dependencias          
-	 */
-	@Autowired
-	public OperacionesController(OperacionesCalculadoraService operacionesCalculadoraService) {
-		this.operacionesCalculadoraService = operacionesCalculadoraService;
-	}
-
-	/**
 	 * Endpoint que realiza una operacion segun tipo
-	 * 
-	 * @param operacion
-	 *            operación pendiente de la que se va a informar al cliente
-	 * 
-	 * @return Código de respuesta HTTP resultado
-	 * 
+	 *
+	 * @param numero1 con el primer numero
+	 * @param numero2 con el segundo numero
+	 * @param operacion con el tipo de operacion
+	 *
+	 * @return ResponseEntity con la respuesta
 	 */
 	@GetMapping("/operar")
 	public ResponseEntity<String> operarNumerosEndpoint(

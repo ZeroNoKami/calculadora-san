@@ -12,11 +12,11 @@ public class OperacionesCalculadoraServiceImpl implements OperacionesCalculadora
 	/**
 	 * Método que opera sobre los 2 numeros dados
 	 *
-	 * @param operacion
-	 *            con la operacion a realizar
-	 * 
-	 * @return Integer resultado de la operacion
-	 * 
+	 * @param numero1 con el primer numero
+	 * @param numero2 con el segundo numero
+	 * @param operacion con la operacion a realizar
+	 *
+	 * @return double con el resultado
 	 */
 	public Double operarNumeros(Double numero1, Double numero2, String operacion) {
 		// Inicializamos la variable que devolveremos

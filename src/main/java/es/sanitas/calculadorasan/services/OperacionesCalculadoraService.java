@@ -1,7 +1,5 @@
 package es.sanitas.calculadorasan.services;
 
-import es.sanitas.calculadorasan.model.OperacionCalculadoraWeb;
-
 /**
  * Interfaz de las operaciones de la calculadora
  * 
